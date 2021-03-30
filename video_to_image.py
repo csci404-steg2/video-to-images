@@ -40,6 +40,11 @@ isn't enough video runtime to properly parse the message.
 I think for the moment we are going to assume that we are being given video as mp4, but I would like to just
 write a wrapper than can take whatever video input and convert it to some constant format, I have a feeling
 that moviepy might already do this under the hood so there is potential that we could just abuse that.
+
+Per moviepy.editor.VideoFileClip docs: "video files can have any extension supported by ffmpeg: .ogv, .mp4, .mpeg, .avi, .mov etc."
+Not sure about supported video codecs however.
+
+https://zulko.github.io/moviepy/ref/VideoClip/VideoClip.html?highlight=videoclip#moviepy.video.io.VideoFileClip.VideoFileClip
 """
 
 def main(argc, argv):
