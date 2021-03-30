@@ -148,5 +148,11 @@ Thumbs.db #thumbnail cache on Windows
 # profiling data
 .prof
 
+# media files for testing
+# media/
+media/image_export/*
+
+# vscode ide settings
+.vscode/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
