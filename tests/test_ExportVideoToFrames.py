@@ -19,16 +19,16 @@ class TestExportVideoToFrames(unittest.TestCase):
         # print(f'Current Directory is: {os.getcwd()}')
 
         # note that this video file is not included in repository.
-        self.clip = VideoFileClip("../media/big_buck_bunny.mp4", audio=False)
+        with VideoFileClip("../media/ben_test.mp4", audio=False) as clip:
+            pass
 
     def test_get_frames_iter(self):
         """Tests retrieving an iterator of frames from the given video file."""
-        self.clip = VideoFileClip("../media/big_buck_bunny.mp4", audio=False)
+        with VideoFileClip("../media/ben_test.mp4", audio=False) as clip:
 
-        # let's only retrieve the frames of the initial second for now.
-        subclip = self.clip.subclip(0, 1)
-
-        frames = subclip.iter_frames()
+            # let's only retrieve the frames of the initial second for now.
+            with clip.subclip(0, 1) as subclip:
+                frames = subclip.iter_frames()
 
         # now that we have our frames we can analyze them with pillow or 
         # write them to the disk.
@@ -39,12 +39,10 @@ class TestExportVideoToFrames(unittest.TestCase):
         I don't think this will be needed, but perhaps we may use it in 
             the future. 
         """
-        self.clip = VideoFileClip("../media/big_buck_bunny.mp4", audio=False)
-
-        # let's retrieve only a few frames from the video.
-        subclip: VideoFileClip = self.clip.subclip(0, 0.05)
-
-        subclip.write_images_sequence("../media/image_export/frame_%04d.png")
+        with VideoFileClip("../media/ben_test.mp4", audio=False) as clip:
+            # let's retrieve only a few frames from the video.
+            with clip.subclip(0.5, 1) as subclip:
+                subclip.write_images_sequence("../media/image_export/frame_%04d.png")
 
 
 if __name__ == "__main__":
