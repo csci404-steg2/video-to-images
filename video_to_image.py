@@ -1,5 +1,8 @@
-import moveipy
+from moviepy.editor import *
 import argparse
+import os
+
+from .src.frame_sniffer import FrameSniffer
 
 """
 ## video handshake routine
@@ -11,7 +14,8 @@ import argparse
 
 1s of full screen black (0x000000) 
     -> 1s of full screen dead time color 
-    -> 1s of full screen alive time -> 1s of offset time 
+    -> 1s of full screen alive time 
+    -> 1s of offset time 
     -> 1s transmission length 
     -> wait offset time 
     -> [capture frame in alive window -> wait dead time]*transmission length 
@@ -52,7 +56,24 @@ def main(argc, argv):
     # https://zulko.github.io/moviepy/
     # https://pillow.readthedocs.io/en/stable/
 
-    pass
+    if argc < 2:
+        print("usage: video_to_image.py [path to video]")
+
+    video_path = argv[1]
+    if not os.path.exists(video_path):
+        print(f"given video '{video_path}' does not exist.")
+
+    clip = VideoFileClip(video_path)
+
+    sniffer = FrameSniffer(clip)
+
+    handshake, frames = sniffer.search_for_handshake()
+
+    print(f"DEAD_TIME {handshake.dead_time}")
+    print(f"ALIVE_TIME {handshake.alive_time}")
+    print(f"OFFSET_TIME {handshake.offset_time}")
+    print(f"TRANSMISSION_LENGTH {handshake.transmission_length}")
+    print(f"FRAMES GATHERED: {len(frames)}")
 
 if __name__ == "__main__":
     main(len(sys.argv), sys.argv)
